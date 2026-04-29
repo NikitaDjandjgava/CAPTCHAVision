@@ -5,14 +5,14 @@ import cv2
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
 import tensorflow as tf
-from tensorflow.keras.applications import ResNet50
+from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras import layers, models
 import kagglehub
 
 DATASET_DIR = os.path.join(kagglehub.dataset_download("mikhailma/test-dataset"), "Google_Recaptcha_V2_Images_Dataset", "images")
 # images are inside dataset/images/ and folder names are capitalised
 # DATASET_DIR = os.path.join(os.path.dirname(__file__), "dataset", "images")
-IMG_SIZE = 224
+IMG_SIZE = 96
 
 X, y = [], []
 
@@ -51,7 +51,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y_enc, test_size=0.2, random_state=0, stratify=y
 )
 
-base = ResNet50(weights="imagenet", include_top=False, input_shape=(IMG_SIZE, IMG_SIZE, 3))
+base = MobileNetV2(weights="imagenet", include_top=False, input_shape=(IMG_SIZE, IMG_SIZE, 3))
 base.trainable = False
 
 model = models.Sequential([
